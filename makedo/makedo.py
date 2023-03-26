@@ -1,5 +1,7 @@
 import argparse
+import logging
 import re
+import secrets
 import socket
 import subprocess
 import sys
@@ -8,6 +10,10 @@ from flask import Flask, render_template_string, request, g, redirect, url_for
 import yaml
 
 app = Flask(__name__)
+token = secrets.token_hex(16)
+
+log = logging.getLogger("werkzeug")
+log.setLevel(logging.ERROR)
 
 args = None
 results = None
@@ -47,7 +53,7 @@ def execute_command(command):
         return b''
     return stderr
 
-@app.route("/", methods=["GET", "POST"])
+@app.route(f"/{token}/", methods=["GET", "POST"])
 def index():
     global results
 
@@ -135,6 +141,7 @@ def main():
     if not results:
         exit(0)
 
+    print(f"http://{socket.gethostname()}:{args.port}/{token}/")
     app.run(host=socket.gethostname(), port=args.port)
 
 
