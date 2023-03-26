@@ -1,0 +1,7 @@
+patterns:
+  - name: error
+    regex: ":[0-9]+:[0-9]+: error:"
+  - name: warning
+    regex: ":[0-9]+:[0-9]+: warning:"
+  - name: note
+    regex: ":[0-9]+:[0-9]+: note:"
